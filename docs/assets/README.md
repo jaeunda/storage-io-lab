@@ -1,6 +1,6 @@
 # SVG design assets
 
-Five vector figures explain the actual implementation and measurements. They share the typography and restrained palette of the profile's compiler, Linux filesystem, and xv6 documentation, with layouts adapted to storage pages, address maps, and reusable slots.
+Five vector figures explain the implementation and measurements through page layouts, address maps, linked slots, and workload bars. Outlined Noto Sans labels and a restrained palette provide consistent, portable rendering.
 
 | Figure | Content |
 | --- | --- |

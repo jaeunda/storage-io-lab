@@ -1,6 +1,18 @@
 # Storage I/O Lab
 
-**What happens when an update has to preserve neighboring data, the newest version, or reusable space?** Three C projects explore that question through a file-backed flash emulator, a hybrid Flash Translation Layer (FTL), and fixed-size student records.
+**250 deleted record slots reused with zero file growth; 1.000× write amplification for repeated writes to one logical sector.** Three C projects implement file-backed flash I/O, a hybrid Flash Translation Layer (FTL), and fixed-slot record storage, with reproducible measurements and content verification.
+
+| Measured result | Workload | Verification |
+| --- | --- | --- |
+| **85,008 bytes before and after reuse; zero growth** | Delete 250 of 1,000 records, then insert 250 replacements | All 250 slots reused; all 750 surviving slots unchanged |
+| **1.000× / 3.988× / 3.951× write amplification** | One hot sector / four live sectors / deterministic mixed writes across 28 sectors | 6,100 logical writes; 1,820 complete 512-byte sector comparisons |
+| **37 reads, 15 writes, 2 erases per full-block update** | Replace one page in a full eight-page block using an empty temporary block | All seven neighboring pages preserved; temporary block erased |
+
+Write amplification is physical page writes divided by logical sector writes. These results measure emulator operations and file allocation. [Exact workloads and reproduction](docs/measurements.md) · [Saved results](experiments/results/latest.json).
+
+![Measured physical page writes per logical write: hot sector 1.000×, four live sectors 3.988×, and mixed workload 3.951×.](docs/assets/measured-results.svg)
+
+## Implemented mechanisms
 
 The flash manager keeps a physical page address stable by copying its neighbors through a temporary block. The FTL separates logical identity from physical placement: writes append versions, reads find the newest one, and a full block triggers a merge. The record manager uses a different form of indirection, linking deleted slots so an insert can consume existing space.
 
@@ -31,8 +43,6 @@ When the block fills, the FTL scans it backward, copies the newest version of ea
 ![A full block contains two versions of LSN 8. Reading finds A2 first; updating to A3 copies only the latest other sectors and moves the mapping to the replacement block.](docs/assets/hybrid-mapping.svg)
 
 With four pages per block, measured write amplification ranged from **1.000× for repeated writes to one sector** to **3.988× while keeping all four sectors live**. A deterministic mixed workload across 28 logical sectors produced **3.951×**. All final sectors matched their expected 512-byte contents; the mixed run also checked readable contents every 64 writes. [Workloads, counts, and reproduction](docs/measurements.md#hybrid-ftl).
-
-![Measured physical page writes per logical write: hot sector 1.000×, four live sectors 3.988×, and mixed workload 3.951×.](docs/assets/measured-results.svg)
 
 ## Record storage: preserve reusable space after deletion
 
@@ -79,6 +89,6 @@ experiments/      # Reproducible driver instrumentation and saved results
 tools/            # SVG design source and regeneration instructions
 ```
 
-The programs are independent course implementations, not successive stages of one executable. Their core algorithms and file formats are retained. The reorganized build gives each executable a name and keeps generated files out of source directories; the hybrid demo now passes complete sector buffers instead of short string literals.
+The programs are independent course implementations. Each owns its image or record file, and generated executables live under `build/`. Detailed project READMEs explain formats, commands, and source paths.
 
-[Validation notes](docs/validation.md) distinguish verified behavior from source-derived limits, including volatile FTL mappings, unchecked error paths, and record packing bounds. Measurements establish operation counts and slot reuse, not durable device throughput or production correctness. The five SVGs use outlined Noto Sans, accessible labels, and a shared restrained palette; [design and font license](docs/assets/README.md). Naming and description suggestions are recorded in [docs/README.md](docs/README.md).
+[Validation notes](docs/validation.md) distinguish verified behavior from source-derived limits, including volatile FTL mappings, unchecked error paths, and record packing bounds. Measurements establish operation counts and slot reuse, not durable device throughput or production correctness. The five SVGs use outlined Noto Sans, accessible labels, and a shared restrained palette; [design and font license](docs/assets/README.md).
