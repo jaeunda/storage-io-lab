@@ -1,0 +1,5 @@
+/build/
+**/a.out
+**/flashmemory
+__pycache__/
+*.pyc

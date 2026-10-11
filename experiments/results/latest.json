@@ -1,0 +1,110 @@
+{
+  "measured_at_utc": "2026-10-11T16:44:02+00:00",
+  "environment": {
+    "kernel": "6.18.33.2-microsoft-standard-WSL2",
+    "architecture": "x86_64",
+    "compiler": "gcc (Ubuntu 9.5.0-6ubuntu2) 9.5.0",
+    "python": "3.12.3",
+    "int_bytes": 4,
+    "byteorder": "little"
+  },
+  "method": "GNU ld --wrap; -O0; initialization and verification reads excluded from hybrid write costs",
+  "flash_update": [
+    {
+      "occupied_pages": 1,
+      "reported": {
+        "reads": 7,
+        "writes": 1,
+        "erases": 2
+      },
+      "driver_calls": {
+        "reads": 23,
+        "writes": 1,
+        "erases": 2
+      },
+      "verified_preserved_pages": 0,
+      "image_bytes": 8448
+    },
+    {
+      "occupied_pages": 4,
+      "reported": {
+        "reads": 10,
+        "writes": 7,
+        "erases": 2
+      },
+      "driver_calls": {
+        "reads": 29,
+        "writes": 7,
+        "erases": 2
+      },
+      "verified_preserved_pages": 3,
+      "image_bytes": 8448
+    },
+    {
+      "occupied_pages": 8,
+      "reported": {
+        "reads": 14,
+        "writes": 15,
+        "erases": 2
+      },
+      "driver_calls": {
+        "reads": 37,
+        "writes": 15,
+        "erases": 2
+      },
+      "verified_preserved_pages": 7,
+      "image_bytes": 8448
+    }
+  ],
+  "hybrid": {
+    "hot": {
+      "logical_writes": 1000,
+      "reads": 996,
+      "writes": 1000,
+      "erases": 249,
+      "verified_sectors": 1,
+      "image_bytes": 16896,
+      "write_amplification": 1.0
+    },
+    "full": {
+      "logical_writes": 1004,
+      "reads": 4000,
+      "writes": 4004,
+      "erases": 1000,
+      "verified_sectors": 4,
+      "image_bytes": 16896,
+      "write_amplification": 3.9880478087649402
+    },
+    "mixed": {
+      "logical_writes": 4096,
+      "reads": 16156,
+      "writes": 16184,
+      "erases": 4039,
+      "verified_sectors": 1815,
+      "image_bytes": 16896,
+      "write_amplification": 3.951171875
+    }
+  },
+  "records": {
+    "initial_records": 1000,
+    "deleted_records": 250,
+    "inserted_records": 250,
+    "bytes_before": 85008,
+    "bytes_after_delete": 85008,
+    "bytes_after_insert": 85008,
+    "reused_slots": 250,
+    "unchanged_survivors": 750,
+    "append_after_delete_overwrites_live_slot": true
+  },
+  "hybrid_demo": [
+    "LSN 8: A2",
+    "lbn pbn last_offset",
+    "0 -1 -1",
+    "1 -1 -1",
+    "2 0 3",
+    "3 -1 -1",
+    "4 -1 -1",
+    "5 -1 -1",
+    "6 -1 -1"
+  ]
+}
